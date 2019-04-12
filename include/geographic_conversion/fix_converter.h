@@ -3,6 +3,8 @@
 
 //headers in ROS
 #include <ros/ros.h>
+#include <sensor_msgs/NavSatFix.h>
+#include <geometry_msgs/PointStamped.h>
 
 namespace geographic_conversion
 {
@@ -11,6 +13,14 @@ namespace geographic_conversion
     public:
         FixConverter(ros::NodeHandle nh,ros::NodeHandle pnh);
         ~FixConverter();
+        geometry_msgs::PointStamped convert(sensor_msgs::NavSatFix fix);
+    private:
+        ros::NodeHandle nh_;
+        ros::NodeHandle pnh_;
+        void fixCallback(const sensor_msgs::NavSatFix::ConstPtr msg);
+        ros::Publisher point_pub_;
+        ros::Subscriber fix_sub_;
+        std::string world_frame_;
     };
 }
 
