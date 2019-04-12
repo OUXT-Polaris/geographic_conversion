@@ -7,7 +7,7 @@ int main(int argc, char *argv[]) {
   ros::init(argc, argv, "geopath_converter_node");
   ros::NodeHandle nh;
   ros::NodeHandle pnh("~");
-  GeopathConverter converter(nh,pnh);
+  geographic_conversion::GeopathConverter converter(nh,pnh);
   ros::spin();
   return 0;
 }

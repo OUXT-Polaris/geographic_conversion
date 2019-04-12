@@ -7,19 +7,23 @@
 #include <nav_msgs/Path.h>
 #include <geodesy/utm.h>
 
-class GeopathConverter
+namespace geographic_conversion
 {
-public:
-    GeopathConverter(ros::NodeHandle nh,ros::NodeHandle pnh);
-    ~GeopathConverter();
-private:
-    ros::NodeHandle nh_;
-    ros::NodeHandle pnh_;
-    std::string world_frame_;
-    geometry_msgs::Point convertToPoint(geographic_msgs::GeoPoint point);
-    void geoPathCallback(const geographic_msgs::GeoPath::ConstPtr path);
-    ros::Subscriber geopath_sub_;
-    ros::Publisher path_pub_;
-};
+    class GeopathConverter
+    {
+    public:
+        GeopathConverter(ros::NodeHandle nh,ros::NodeHandle pnh);
+        ~GeopathConverter();
+        nav_msgs::Path convert(geographic_msgs::GeoPath path);
+    private:
+        ros::NodeHandle nh_;
+        ros::NodeHandle pnh_;
+        std::string world_frame_;
+        geometry_msgs::Point convertToPoint(geographic_msgs::GeoPoint point);
+        void geoPathCallback(const geographic_msgs::GeoPath::ConstPtr path);
+        ros::Subscriber geopath_sub_;
+        ros::Publisher path_pub_;
+    };
+}
 
 #endif  //GEOGRAPHIC_CONVERSION_GEOPATH_CONVERTER_H_INCLUDED

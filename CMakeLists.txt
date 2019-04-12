@@ -7,6 +7,7 @@ find_package(catkin REQUIRED COMPONENTS
   geodesy
   roscpp
   nav_msgs
+  sensor_msgs
 )
 
 catkin_package(
@@ -23,6 +24,9 @@ include_directories(
 
 add_executable(geopath_converter_node src/geopath_converter_node.cpp src/geopath_converter.cpp)
 target_link_libraries(geopath_converter_node ${catkin_LIBRARIES})
+
+add_executable(fix_converter_node src/fix_converter_node.cpp src/fix_converter.cpp)
+target_link_libraries(fix_converter_node ${catkin_LIBRARIES})
 
 install(TARGETS geopath_converter_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
