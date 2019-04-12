@@ -23,3 +23,7 @@ include_directories(
 
 add_executable(geopath_converter_node src/geopath_converter_node.cpp src/geopath_converter.cpp)
 target_link_libraries(geopath_converter_node ${catkin_LIBRARIES})
+
+install(TARGETS geopath_converter_node
+  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
