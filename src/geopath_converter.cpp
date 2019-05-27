@@ -6,7 +6,7 @@ namespace geographic_conversion
     {
         nh_ = nh;
         pnh_ = pnh;
-        pnh_.param<std::string>("world_frame", world_frame_, "world");
+        pnh_.param<std::string>("map_frame", map_frame_, "world");
         path_pub_ = nh_.advertise<nav_msgs::Path>("path",1);
         geopath_sub_ = pnh_.subscribe("geopath",1,&GeopathConverter::geoPathCallback,this);
     }
@@ -31,11 +31,11 @@ namespace geographic_conversion
     {
         nav_msgs::Path ret;
         ret.header.stamp = path.header.stamp;
-        ret.header.frame_id = world_frame_;
+        ret.header.frame_id = map_frame_;
         for(auto itr = path.poses.begin(); itr != path.poses.end(); itr++)
         {
             geometry_msgs::PoseStamped pose;
-            pose.header.frame_id = world_frame_;
+            pose.header.frame_id = map_frame_;
             pose.header.stamp = itr->header.stamp;
             pose.pose.position = convertToPoint(itr->pose.position);
             pose.pose.orientation = itr->pose.orientation;

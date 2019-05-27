@@ -1,0 +1,4 @@
+geographic_msgs/GeoPoint geopoint
+time stamp
+---
+geometry_msgs/PointStamped point

@@ -18,7 +18,7 @@ namespace geographic_conversion
     private:
         ros::NodeHandle nh_;
         ros::NodeHandle pnh_;
-        std::string world_frame_;
+        std::string map_frame_;
         geometry_msgs::Point convertToPoint(geographic_msgs::GeoPoint point);
         void geoPathCallback(const geographic_msgs::GeoPath::ConstPtr path);
         ros::Subscriber geopath_sub_;
