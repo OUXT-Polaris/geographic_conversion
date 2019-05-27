@@ -5,6 +5,7 @@
 #include <ros/ros.h>
 #include <sensor_msgs/NavSatFix.h>
 #include <geometry_msgs/PointStamped.h>
+#include <geodesy/utm.h>
 
 namespace geographic_conversion
 {
@@ -21,6 +22,7 @@ namespace geographic_conversion
         ros::Publisher point_pub_;
         ros::Subscriber fix_sub_;
         std::string map_frame_;
+        std::string input_topic_;
     };
 }
 
