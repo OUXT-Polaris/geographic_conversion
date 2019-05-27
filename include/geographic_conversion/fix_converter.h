@@ -20,7 +20,7 @@ namespace geographic_conversion
         void fixCallback(const sensor_msgs::NavSatFix::ConstPtr msg);
         ros::Publisher point_pub_;
         ros::Subscriber fix_sub_;
-        std::string world_frame_;
+        std::string map_frame_;
     };
 }
 
