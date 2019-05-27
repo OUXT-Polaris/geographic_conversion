@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <launch>
-    <arg name="fix_topic" default="/fix"/>
+    <arg name="fix_topic" default="/gps/fix"/>
     <arg name="map_frame" default="map"/>
 
     <node pkg="geographic_conversion" type="fix_converter_node" name="fix_converter_node" output="screen" respawn="true" respawn_delay="0">
