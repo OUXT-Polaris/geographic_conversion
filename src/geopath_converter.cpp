@@ -22,7 +22,7 @@ namespace geographic_conversion
         geodesy::UTMPoint utm_point;
         geodesy::fromMsg(point,utm_point);
         to.x = utm_point.northing;
-        to.y = utm_point.easting;
+        to.y = utm_point.easting * -1;
         to.z = utm_point.altitude;
         return to;
     }
