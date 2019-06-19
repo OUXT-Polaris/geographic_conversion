@@ -43,7 +43,11 @@ include_directories(
 add_executable(geopath_converter_node src/geopath_converter_node.cpp src/geopath_converter.cpp)
 target_link_libraries(geopath_converter_node ${catkin_LIBRARIES})
 
-# convert fix to point_stamped
+# convert geopose to posestamped
+add_executable(geopose_converter_node src/geopose_converter_node.cpp src/geopose_converter.cpp)
+target_link_libraries(geopose_converter_node ${catkin_LIBRARIES})
+
+# convert fix to pointstamped
 add_executable(fix_converter_node src/fix_converter_node.cpp src/fix_converter.cpp)
 target_link_libraries(fix_converter_node ${catkin_LIBRARIES})
 
@@ -53,7 +57,7 @@ target_link_libraries(geographic_conversion_server_node ${catkin_LIBRARIES})
 add_dependencies(geographic_conversion_server_node geographic_conversion_generate_messages_cpp)
 
 # install executables
-install(TARGETS geopath_converter_node fix_converter_node geographic_conversion_server_node
+install(TARGETS geopath_converter_node geopose_converter_node fix_converter_node geographic_conversion_server_node
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
