@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
     ros::init(argc, argv, "geopose_converter_node");
     ros::NodeHandle nh;
     ros::NodeHandle pnh("~");
-    //geographic_conversion::FixConverter converter(nh,pnh);
+    geographic_conversion::GeoposeConverter converter(nh,pnh);
     ros::spin();
     return 0;
 }

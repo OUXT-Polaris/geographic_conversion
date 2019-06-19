@@ -7,7 +7,7 @@ namespace geographic_conversion
         nh_ = nh;
         pnh_ = pnh;
         pnh_.param<std::string>("map_frame", map_frame_, "world");
-        path_pub_ = nh_.advertise<nav_msgs::Path>("path",1);
+        path_pub_ = pnh_.advertise<nav_msgs::Path>("path",1);
         geopath_sub_ = pnh_.subscribe("geopath",1,&GeopathConverter::geoPathCallback,this);
     }
 
