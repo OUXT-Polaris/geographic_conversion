@@ -6,6 +6,7 @@ namespace geographic_conversion
     GeographicConversionServer::GeographicConversionServer(ros::NodeHandle nh,ros::NodeHandle pnh)
         : nh_(nh),pnh_(pnh),tf_listener_(tf_buffer_)
     {
+        tf_buffer_.setUsingDedicatedThread(true);
         pnh_.param<std::string>("map_frame", map_frame_, "world");
     }
 
@@ -33,7 +34,7 @@ namespace geographic_conversion
             geometry_msgs::TransformStamped transform_stamped;
             try
             {
-                transform_stamped = tf_buffer_.lookupTransform(map_frame_, point.header.frame_id,ros::Time(0));
+                transform_stamped = tf_buffer_.lookupTransform(map_frame_, point.header.frame_id,ros::Time(0),ros::Duration(0.1));
             }
             catch (tf2::TransformException &ex)
             {
