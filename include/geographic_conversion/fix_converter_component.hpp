@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef GEOGRAPHIC_CONVERSION__FIX_CONVERTER_HPP_
-#define GEOGRAPHIC_CONVERSION__FIX_CONVERTER_HPP_
+#ifndef GEOGRAPHIC_CONVERSION__FIX_CONVERTER_COMPONENT_HPP_
+#define GEOGRAPHIC_CONVERSION__FIX_CONVERTER_COMPONENT_HPP_
 
 //headers in ROS
 #include <rclcpp/rclcpp.hpp>
@@ -29,36 +29,36 @@ extern "C" {
 // demos/composition/include/composition/visibility_control.h at https://github.com/ros2/demos
 #if defined _WIN32 || defined __CYGWIN__
 #ifdef __GNUC__
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_EXPORT __attribute__((dllexport))
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_IMPORT __attribute__((dllimport))
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_EXPORT __attribute__((dllexport))
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_IMPORT __attribute__((dllimport))
 #else
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_EXPORT __declspec(dllexport)
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_IMPORT __declspec(dllimport)
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_EXPORT __declspec(dllexport)
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_IMPORT __declspec(dllimport)
 #endif
-#ifdef GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_BUILDING_DLL
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_PUBLIC \
-  GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_EXPORT
+#ifdef GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_BUILDING_DLL
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC \
+  GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_EXPORT
 #else
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_PUBLIC \
-  GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_IMPORT
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC \
+  GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_IMPORT
 #endif
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_PUBLIC_TYPE \
-  GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_PUBLIC
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_LOCAL
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC_TYPE \
+  GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_LOCAL
 #else
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_EXPORT \
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_EXPORT \
   __attribute__((visibility("default")))
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_IMPORT
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_IMPORT
 #if __GNUC__ >= 4
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_PUBLIC \
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC \
   __attribute__((visibility("default")))
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_LOCAL \
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_LOCAL \
   __attribute__((visibility("hidden")))
 #else
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_PUBLIC
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_LOCAL
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_LOCAL
 #endif
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENTCOMPONENT_PUBLIC_TYPE
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC_TYPE
 #endif
 
 #if __cplusplus
@@ -67,25 +67,19 @@ extern "C" {
 
 namespace geographic_conversion
 {
-    class FixConverterComponent
-    {
-    public:
-    /*
-        FixConverter(ros::NodeHandle nh,ros::NodeHandle pnh);
-        ~FixConverter();
-        geometry_msgs::PointStamped convert(sensor_msgs::NavSatFix fix);
-    */
-    private:
-    /*
-        ros::NodeHandle nh_;
-        ros::NodeHandle pnh_;
-        void fixCallback(const sensor_msgs::NavSatFix::ConstPtr msg);
-        ros::Publisher point_pub_;
-        ros::Subscriber fix_sub_;
-        std::string map_frame_;
-        std::string input_topic_;
-    */
-    };
+class FixConverterComponent : public rclcpp::Node
+{
+public:
+  GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC
+  explicit FixConverterComponent(const rclcpp::NodeOptions & options);
+
+private:
+  std::string map_frame_;
+  std::string input_topic_;
+  rclcpp::Publisher<geometry_msgs::msg::PointStamped>::SharedPtr point_pub_;
+  rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr fix_sub_;
+  void fixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg);
+};
 }  // geographic_conversion
 
-#endif  // GEOGRAPHIC_CONVERSION__FIX_CONVERTER_HPP_
+#endif  // GEOGRAPHIC_CONVERSION__FIX_CONVERTER_COMPONENT_HPP_

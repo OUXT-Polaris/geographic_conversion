@@ -37,39 +37,63 @@ add_library(fix_converter_component SHARED
 )
 target_compile_definitions(fix_converter_component
   PRIVATE "nmea_to_geopose_nmea_to_geopose_COMPONENT_BUILDING_DLL")
-ament_target_dependencies(nmea_to_geopose_component
+ament_target_dependencies(fix_converter_component
   rclcpp
   rclcpp_components
-  nmea_msgs
+  nav_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
   geodesy
-  geographic_msgs
-  quaternion_operation)
-rclcpp_components_register_nodes(nmea_to_geopose_component
-  "nmea_geopose::NmeaToGeoPoseComponent")
+  geographic_msgs)
+rclcpp_components_register_nodes(fix_converter_component
+  "geographic_conversion::FixConverterComponent")
 
-# convert geopath to path
-#add_executable(geopath_converter_node src/geopath_converter_node.cpp src/geopath_converter.cpp)
-#target_link_libraries(geopath_converter_node ${catkin_LIBRARIES})
+add_library(geopath_converter_component SHARED
+  src/geopath_converter_component.cpp
+)
+target_compile_definitions(geopath_converter_component
+  PRIVATE "GEOGRAPHIC_CONVERSION_GEOPATH_CONVERTER_COMPONENT_BUILDING_DLL")
+ament_target_dependencies(geopath_converter_component
+  rclcpp
+  rclcpp_components
+  nav_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
+  geodesy
+  geographic_msgs)
+rclcpp_components_register_nodes(geopath_converter_component
+  "geographic_conversion::GeoPathConverterComponent")
 
-# convert geopose to posestamped
-#add_executable(geopose_converter_node src/geopose_converter_node.cpp src/geopose_converter.cpp)
-#target_link_libraries(geopose_converter_node ${catkin_LIBRARIES})
+add_library(geopose_converter_component SHARED
+  src/geopose_converter_component.cpp
+)
+target_compile_definitions(geopath_converter_component
+  PRIVATE "GEOGRAPHIC_CONVERSION_GEOPOSE_CONVERTER_COMPONENT_BUILDING_DLL")
+ament_target_dependencies(geopose_converter_component
+  rclcpp
+  rclcpp_components
+  nav_msgs
+  tf2
+  tf2_ros
+  tf2_geometry_msgs
+  geodesy
+  geographic_msgs)
+rclcpp_components_register_nodes(geopose_converter_component
+  "geographic_conversion::GeoPoseConverterComponent")
 
-# convert fix to pointstamped
-#add_executable(fix_converter_node src/fix_converter_node.cpp src/fix_converter.cpp)
-#target_link_libraries(fix_converter_node ${catkin_LIBRARIES})
+install(TARGETS
+  fix_converter_component
+  geopose_converter_component
+  geopath_converter_component
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin)
 
-# convert lat/lon conversion server
-#add_executable(geographic_conversion_server_node src/geographic_conversion_server_node.cpp src/geographic_conversion_server.cpp)
-#target_link_libraries(geographic_conversion_server_node ${catkin_LIBRARIES})
-#add_dependencies(geographic_conversion_server_node geographic_conversion_generate_messages_cpp)
-
-# install executables
-#install(TARGETS geopath_converter_node geopose_converter_node fix_converter_node geographic_conversion_server_node
-#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-#  LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#  RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
-#)
+ament_export_libraries(fix_converter_component)
+ament_export_libraries(geopath_converter_component)
+ament_export_libraries(geopose_converter_component)
 
 # install headers
 install(
