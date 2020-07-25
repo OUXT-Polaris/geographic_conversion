@@ -60,10 +60,10 @@ extern "C" {
 #endif
 
 // Headers in ROS
-#include <rclcpp/rclcpp.hpp>
-#include <geographic_msgs/msg/geo_pose_stamped.hpp>
 #include <geodesy/utm.h>
+#include <geographic_msgs/msg/geo_pose_stamped.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
+#include <rclcpp/rclcpp.hpp>
 
 // Headers in STL
 #include <string>

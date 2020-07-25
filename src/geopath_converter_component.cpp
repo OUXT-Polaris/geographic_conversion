@@ -23,8 +23,9 @@ GeopathConverterComponent::GeopathConverterComponent(const rclcpp::NodeOptions &
   declare_parameter("map_frame", "map");
   get_parameter("map_frame", map_frame_);
   path_pub_ = this->create_publisher<nav_msgs::msg::Path>("~/path", 1);
-  geopath_sub_ = this->create_subscription<geographic_msgs::msg::GeoPath>("~/geopath", 1,
-      std::bind(&GeopathConverterComponent::geoPathCallback, this, std::placeholders::_1));
+  geopath_sub_ = this->create_subscription<geographic_msgs::msg::GeoPath>(
+    "~/geopath", 1,
+    std::bind(&GeopathConverterComponent::geoPathCallback, this, std::placeholders::_1));
 }
 
 nav_msgs::msg::Path GeopathConverterComponent::convert(geographic_msgs::msg::GeoPath path)

@@ -60,10 +60,10 @@ extern "C" {
 #endif
 
 // Headers in ROS
-#include <rclcpp/rclcpp.hpp>
+#include <geodesy/utm.h>
 #include <geographic_msgs/msg/geo_path.hpp>
 #include <nav_msgs/msg/path.hpp>
-#include <geodesy/utm.h>
+#include <rclcpp/rclcpp.hpp>
 
 // Headers in STL
 #include <string>

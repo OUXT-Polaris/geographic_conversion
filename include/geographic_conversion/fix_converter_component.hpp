@@ -16,10 +16,10 @@
 #define GEOGRAPHIC_CONVERSION__FIX_CONVERTER_COMPONENT_HPP_
 
 // Headers in ROS
+#include <geodesy/utm.h>
+#include <geometry_msgs/msg/point_stamped.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
-#include <geometry_msgs/msg/point_stamped.hpp>
-#include <geodesy/utm.h>
 
 // Headers in STL
 #include <string>
@@ -49,14 +49,11 @@ extern "C" {
   GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC
 #define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_LOCAL
 #else
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_EXPORT \
-  __attribute__((visibility("default")))
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_EXPORT __attribute__((visibility("default")))
 #define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_IMPORT
 #if __GNUC__ >= 4
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC \
-  __attribute__((visibility("default")))
-#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_LOCAL \
-  __attribute__((visibility("hidden")))
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC __attribute__((visibility("default")))
+#define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_LOCAL __attribute__((visibility("hidden")))
 #else
 #define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_PUBLIC
 #define GEOGRAPHIC_CONVERSION_FIX_CONVERTER_COMPONENT_LOCAL

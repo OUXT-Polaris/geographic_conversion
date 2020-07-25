@@ -23,8 +23,9 @@ GeoposeConverterComponent::GeoposeConverterComponent(const rclcpp::NodeOptions &
   declare_parameter("map_frame", "map");
   get_parameter("map_frame", map_frame_);
   pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("~/pose", 1);
-  geopose_sub_ = this->create_subscription<geographic_msgs::msg::GeoPoseStamped>("~/geopose", 1,
-      std::bind(&GeoposeConverterComponent::geoposeCallback, this, std::placeholders::_1));
+  geopose_sub_ = this->create_subscription<geographic_msgs::msg::GeoPoseStamped>(
+    "~/geopose", 1,
+    std::bind(&GeoposeConverterComponent::geoposeCallback, this, std::placeholders::_1));
 }
 
 void GeoposeConverterComponent::geoposeCallback(

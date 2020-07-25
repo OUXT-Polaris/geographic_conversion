@@ -23,8 +23,8 @@ FixConverterComponent::FixConverterComponent(const rclcpp::NodeOptions & options
   declare_parameter("map_frame", "map");
   get_parameter("map_frame", map_frame_);
   point_pub_ = this->create_publisher<geometry_msgs::msg::PointStamped>("~/position", 1);
-  fix_sub_ = this->create_subscription<sensor_msgs::msg::NavSatFix>("~/fix", 1,
-      std::bind(&FixConverterComponent::fixCallback, this, std::placeholders::_1));
+  fix_sub_ = this->create_subscription<sensor_msgs::msg::NavSatFix>(
+    "~/fix", 1, std::bind(&FixConverterComponent::fixCallback, this, std::placeholders::_1));
 }
 
 void FixConverterComponent::fixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg)
