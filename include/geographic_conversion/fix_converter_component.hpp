@@ -15,11 +15,14 @@
 #ifndef GEOGRAPHIC_CONVERSION__FIX_CONVERTER_COMPONENT_HPP_
 #define GEOGRAPHIC_CONVERSION__FIX_CONVERTER_COMPONENT_HPP_
 
-//headers in ROS
+// Headers in ROS
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <geodesy/utm.h>
+
+// Headers in STL
+#include <string>
 
 #if __cplusplus
 extern "C" {
@@ -80,6 +83,6 @@ private:
   rclcpp::Subscription<sensor_msgs::msg::NavSatFix>::SharedPtr fix_sub_;
   void fixCallback(const sensor_msgs::msg::NavSatFix::SharedPtr msg);
 };
-}  // geographic_conversion
+}  // namespace geographic_conversion
 
 #endif  // GEOGRAPHIC_CONVERSION__FIX_CONVERTER_COMPONENT_HPP_

@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef GEOGRAPHIC_CONVERSION_GEOPATH_CONVERTER_H_INCLUDED
-#define GEOGRAPHIC_CONVERSION_GEOPATH_CONVERTER_H_INCLUDED
+#ifndef GEOGRAPHIC_CONVERSION__GEOPATH_CONVERTER_COMPONENT_HPP_
+#define GEOGRAPHIC_CONVERSION__GEOPATH_CONVERTER_COMPONENT_HPP_
 
 #if __cplusplus
 extern "C" {
@@ -59,11 +59,14 @@ extern "C" {
 }  // extern "C"
 #endif
 
-//headers in ROS
+// Headers in ROS
 #include <rclcpp/rclcpp.hpp>
 #include <geographic_msgs/msg/geo_path.hpp>
 #include <nav_msgs/msg/path.hpp>
 #include <geodesy/utm.h>
+
+// Headers in STL
+#include <string>
 
 namespace geographic_conversion
 {
@@ -81,6 +84,6 @@ private:
   rclcpp::Publisher<nav_msgs::msg::Path>::SharedPtr path_pub_;
   rclcpp::Subscription<geographic_msgs::msg::GeoPath>::SharedPtr geopath_sub_;
 };
-}
+}  // namespace geographic_conversion
 
-#endif  //GEOGRAPHIC_CONVERSION_GEOPATH_CONVERTER_H_INCLUDED
+#endif  // GEOGRAPHIC_CONVERSION__GEOPATH_CONVERTER_COMPONENT_HPP_

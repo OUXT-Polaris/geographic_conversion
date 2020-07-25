@@ -12,8 +12,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef GEOGRAPHIC_CONVERSION_GEOPOSE_CONVERTER_H_INCLUDED
-#define GEOGRAPHIC_CONVERSION_GEOPOSE_CONVERTER_H_INCLUDED
+#ifndef GEOGRAPHIC_CONVERSION__GEOPOSE_CONVERTER_COMPONENT_HPP_
+#define GEOGRAPHIC_CONVERSION__GEOPOSE_CONVERTER_COMPONENT_HPP_
 
 #if __cplusplus
 extern "C" {
@@ -65,6 +65,9 @@ extern "C" {
 #include <geodesy/utm.h>
 #include <geometry_msgs/msg/pose_stamped.hpp>
 
+// Headers in STL
+#include <string>
+
 namespace geographic_conversion
 {
 class GeoposeConverterComponent : public rclcpp::Node
@@ -80,6 +83,6 @@ private:
   geometry_msgs::msg::PoseStamped convert(geographic_msgs::msg::GeoPoseStamped geopose);
   void geoposeCallback(const geographic_msgs::msg::GeoPoseStamped::SharedPtr msg);
 };
-}
+}  // namespace geographic_conversion
 
-#endif  //GEOGRAPHIC_CONVERSION_GEOPOSE_CONVERTER_H_INCLUDED
+#endif  // GEOGRAPHIC_CONVERSION__GEOPOSE_CONVERTER_COMPONENT_HPP_
