@@ -1,9 +1,0 @@
-geometry_msgs/PointStamped point
-uint8 utm_longitude_zone
-string mgrs_latitude_band
----
-bool result
-bool CONVERSION_SUCCEEDED = True
-bool CONVERSION_FAILED = False
-geographic_msgs/GeoPoint geopoint
-time stamp

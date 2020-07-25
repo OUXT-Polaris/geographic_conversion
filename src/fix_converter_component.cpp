@@ -2,6 +2,7 @@
 
 namespace geographic_conversion
 {
+    /*
     FixConverter::FixConverter(ros::NodeHandle nh,ros::NodeHandle pnh)
     {
         nh_ = nh;
@@ -33,4 +34,5 @@ namespace geographic_conversion
         point_pub_.publish(point);
         return;
     }
+    */
 }

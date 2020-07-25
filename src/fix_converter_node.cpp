@@ -1,4 +1,4 @@
-#include <geographic_conversion/fix_converter.h>
+#include <geographic_conversion/fix_converter.hpp>
 
 // headers in ros
 #include <ros/ros.h>
