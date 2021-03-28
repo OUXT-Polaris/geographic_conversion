@@ -67,6 +67,9 @@ extern "C" {
 
 // Headers in STL
 #include <string>
+#include <limits>
+#include <cmath>
+#include <ctype.h>
 
 namespace geographic_conversion
 {

@@ -23,6 +23,9 @@
 
 // Headers in STL
 #include <string>
+#include <limits>
+#include <cmath>
+#include <ctype.h>
 
 #if __cplusplus
 extern "C" {
