@@ -16,16 +16,16 @@
 #define GEOGRAPHIC_CONVERSION__FIX_CONVERTER_COMPONENT_HPP_
 
 // Headers in ROS
-#include <geodesy/utm.h>
 #include <geometry_msgs/msg/point_stamped.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <sensor_msgs/msg/nav_sat_fix.hpp>
+#include <geodesy/utm.h>
+#include <ctype.h>
 
 // Headers in STL
 #include <string>
 #include <limits>
 #include <cmath>
-#include <ctype.h>
 
 #if __cplusplus
 extern "C" {
