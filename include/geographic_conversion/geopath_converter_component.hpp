@@ -60,13 +60,17 @@ extern "C" {
 #endif
 
 // Headers in ROS
-#include <geodesy/utm.h>
 #include <geographic_msgs/msg/geo_path.hpp>
 #include <nav_msgs/msg/path.hpp>
 #include <rclcpp/rclcpp.hpp>
 
+#include <ctype.h>
+#include <geodesy/utm.h>
+
 // Headers in STL
 #include <string>
+#include <limits>
+#include <cmath>
 
 namespace geographic_conversion
 {
