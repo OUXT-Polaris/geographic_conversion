@@ -61,7 +61,7 @@ extern "C" {
 
 // Headers in ROS
 #include <geographic_msgs/msg/geo_pose_stamped.hpp>
-#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <rclcpp/rclcpp.hpp>
 
 #include <ctype.h>
@@ -82,9 +82,9 @@ public:
 
 private:
   std::string map_frame_;
-  rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr pose_pub_;
+  rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr pose_pub_;
   rclcpp::Subscription<geographic_msgs::msg::GeoPoseStamped>::SharedPtr geopose_sub_;
-  geometry_msgs::msg::PoseStamped convert(geographic_msgs::msg::GeoPoseStamped geopose);
+  geometry_msgs::msg::PoseWithCovarianceStamped convert(geographic_msgs::msg::GeoPoseStamped geopose);
   void geoposeCallback(const geographic_msgs::msg::GeoPoseStamped::SharedPtr msg);
 };
 }  // namespace geographic_conversion
