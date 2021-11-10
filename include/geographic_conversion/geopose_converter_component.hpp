@@ -60,17 +60,17 @@ extern "C" {
 #endif
 
 // Headers in ROS
+#include <ctype.h>
+#include <geodesy/utm.h>
+
 #include <geographic_msgs/msg/geo_pose_stamped.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <rclcpp/rclcpp.hpp>
 
-#include <ctype.h>
-#include <geodesy/utm.h>
-
 // Headers in STL
-#include <string>
-#include <limits>
 #include <cmath>
+#include <limits>
+#include <string>
 
 namespace geographic_conversion
 {
@@ -84,7 +84,8 @@ private:
   std::string map_frame_;
   rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr pose_pub_;
   rclcpp::Subscription<geographic_msgs::msg::GeoPoseStamped>::SharedPtr geopose_sub_;
-  geometry_msgs::msg::PoseWithCovarianceStamped convert(geographic_msgs::msg::GeoPoseStamped geopose);
+  geometry_msgs::msg::PoseWithCovarianceStamped convert(
+    geographic_msgs::msg::GeoPoseStamped geopose);
   void geoposeCallback(const geographic_msgs::msg::GeoPoseStamped::SharedPtr msg);
 };
 }  // namespace geographic_conversion

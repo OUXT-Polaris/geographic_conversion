@@ -45,6 +45,8 @@ geometry_msgs::msg::PoseWithCovarianceStamped GeoposeConverterComponent::convert
   pose.pose.pose.position.y = utm_pose.position.easting * -1;
   pose.pose.pose.position.z = utm_pose.position.altitude;
   pose.pose.pose.orientation = utm_pose.orientation;
+  pose.pose.covariance = {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+                          0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1};
   return pose;
 }
 }  // namespace geographic_conversion
