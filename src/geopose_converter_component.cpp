@@ -22,7 +22,7 @@ GeoposeConverterComponent::GeoposeConverterComponent(const rclcpp::NodeOptions &
 {
   declare_parameter("map_frame", "map");
   get_parameter("map_frame", map_frame_);
-  pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("~/pose", 1);
+  pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("~/pose", 1);
   geopose_sub_ = this->create_subscription<geographic_msgs::msg::GeoPoseStamped>(
     "~/geopose", 1,
     std::bind(&GeoposeConverterComponent::geoposeCallback, this, std::placeholders::_1));
@@ -34,17 +34,19 @@ void GeoposeConverterComponent::geoposeCallback(
   pose_pub_->publish(convert(*msg));
 }
 
-geometry_msgs::msg::PoseStamped GeoposeConverterComponent::convert(
+geometry_msgs::msg::PoseWithCovarianceStamped GeoposeConverterComponent::convert(
   geographic_msgs::msg::GeoPoseStamped geopose)
 {
-  geometry_msgs::msg::PoseStamped pose;
+  geometry_msgs::msg::PoseWithCovarianceStamped pose;
   geodesy::UTMPose utm_pose = geodesy::UTMPose(geopose.pose);
   pose.header.frame_id = map_frame_;
   pose.header.stamp = geopose.header.stamp;
-  pose.pose.position.x = utm_pose.position.northing;
-  pose.pose.position.y = utm_pose.position.easting * -1;
-  pose.pose.position.z = utm_pose.position.altitude;
-  pose.pose.orientation = utm_pose.orientation;
+  pose.pose.pose.position.x = utm_pose.position.northing;
+  pose.pose.pose.position.y = utm_pose.position.easting * -1;
+  pose.pose.pose.position.z = utm_pose.position.altitude;
+  pose.pose.pose.orientation = utm_pose.orientation;
+  pose.pose.covariance = {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+    0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1};
   return pose;
 }
 }  // namespace geographic_conversion
