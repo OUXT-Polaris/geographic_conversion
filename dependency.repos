@@ -3,3 +3,7 @@ repositories:
     url: https://github.com/OUXT-Polaris/geographic_info.git
     type: git
     version: ros2
+  ouxt_common:
+    url: https://github.com/OUXT-Polaris/ouxt_common.git
+    type: git
+    version: ros2
