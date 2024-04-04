@@ -13,6 +13,7 @@
 // limitations under the License.
 
 #include <geographic_conversion/geopose_converter_component.hpp>
+#include <geometry_msgs/msg/pose_with_covariance.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
 #include <std_msgs/msg/header.hpp>
 
@@ -29,6 +30,8 @@ GeoposeConverterComponent::GeoposeConverterComponent(const rclcpp::NodeOptions &
   } else {
     pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("/gps_pose", 1);
   }
+  declare_parameter("publish_covariance", false);
+  get_parameter("publish_covariance", publish_covariance_);
 
   geopose_sub_ = this->create_subscription<geographic_msgs::msg::GeoPoseStamped>(
     "/geopose", 1,
@@ -60,17 +63,12 @@ auto GeoposeConverterComponent::convert_with_covariance(
   const geographic_msgs::msg::GeoPoseStamped & geopose) const
   -> geometry_msgs::msg::PoseWithCovarianceStamped
 {
-  geometry_msgs::msg::PoseWithCovarianceStamped pose;
-  geodesy::UTMPose utm_pose = geodesy::UTMPose(geopose.pose);
-  pose.header.frame_id = map_frame_;
-  pose.header.stamp = geopose.header.stamp;
-  pose.pose.pose.position.x = utm_pose.position.northing;
-  pose.pose.pose.position.y = utm_pose.position.easting * -1;
-  pose.pose.pose.position.z = utm_pose.position.altitude;
-  pose.pose.pose.orientation = utm_pose.orientation;
-  pose.pose.covariance = {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
-                          0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1};
-  return pose;
+  const auto pose = convert(geopose);
+  return geometry_msgs::build<geometry_msgs::msg::PoseWithCovarianceStamped>()
+    .header(pose.header)
+    .pose(geometry_msgs::build<geometry_msgs::msg::PoseWithCovariance>().pose(pose.pose).covariance(
+      {1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0,
+       0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1}));
 }
 }  // namespace geographic_conversion
 
