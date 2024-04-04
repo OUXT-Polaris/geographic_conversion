@@ -24,14 +24,14 @@ GeoposeConverterComponent::GeoposeConverterComponent(const rclcpp::NodeOptions &
 {
   declare_parameter("map_frame", "map");
   get_parameter("map_frame", map_frame_);
+  declare_parameter("publish_covariance", false);
+  get_parameter("publish_covariance", publish_covariance_);
   if (publish_covariance_) {
     pose_with_covariance_pub_ =
       this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/gps_pose", 1);
   } else {
     pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("/gps_pose", 1);
   }
-  declare_parameter("publish_covariance", false);
-  get_parameter("publish_covariance", publish_covariance_);
 
   geopose_sub_ = this->create_subscription<geographic_msgs::msg::GeoPoseStamped>(
     "/geopose", 1,
@@ -41,7 +41,11 @@ GeoposeConverterComponent::GeoposeConverterComponent(const rclcpp::NodeOptions &
 void GeoposeConverterComponent::geoposeCallback(
   const geographic_msgs::msg::GeoPoseStamped::SharedPtr msg)
 {
-  pose_with_covariance_pub_->publish(convert_with_covariance(*msg));
+  if (publish_covariance_) {
+    pose_with_covariance_pub_->publish(convert_with_covariance(*msg));
+  } else {
+    pose_pub_->publish(convert(*msg));
+  }
 }
 
 auto GeoposeConverterComponent::convert(const geographic_msgs::msg::GeoPoseStamped & geopose) const
