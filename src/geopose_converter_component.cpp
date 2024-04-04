@@ -14,6 +14,7 @@
 
 #include <geographic_conversion/geopose_converter_component.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
+#include <std_msgs/msg/header.hpp>
 
 namespace geographic_conversion
 {
@@ -22,7 +23,13 @@ GeoposeConverterComponent::GeoposeConverterComponent(const rclcpp::NodeOptions &
 {
   declare_parameter("map_frame", "map");
   get_parameter("map_frame", map_frame_);
-  pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/gps_pose", 1);
+  if (publish_covariance_) {
+    pose_with_covariance_pub_ =
+      this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/gps_pose", 1);
+  } else {
+    pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("/gps_pose", 1);
+  }
+
   geopose_sub_ = this->create_subscription<geographic_msgs::msg::GeoPoseStamped>(
     "/geopose", 1,
     std::bind(&GeoposeConverterComponent::geoposeCallback, this, std::placeholders::_1));
@@ -31,11 +38,27 @@ GeoposeConverterComponent::GeoposeConverterComponent(const rclcpp::NodeOptions &
 void GeoposeConverterComponent::geoposeCallback(
   const geographic_msgs::msg::GeoPoseStamped::SharedPtr msg)
 {
-  pose_pub_->publish(convert(*msg));
+  pose_with_covariance_pub_->publish(convert_with_covariance(*msg));
 }
 
-geometry_msgs::msg::PoseWithCovarianceStamped GeoposeConverterComponent::convert(
-  geographic_msgs::msg::GeoPoseStamped geopose)
+auto GeoposeConverterComponent::convert(const geographic_msgs::msg::GeoPoseStamped & geopose) const
+  -> geometry_msgs::msg::PoseStamped
+{
+  geodesy::UTMPose utm_pose = geodesy::UTMPose(geopose.pose);
+  return geometry_msgs::build<geometry_msgs::msg::PoseStamped>()
+    .header(
+      std_msgs::build<std_msgs::msg::Header>().stamp(geopose.header.stamp).frame_id(map_frame_))
+    .pose(geometry_msgs::build<geometry_msgs::msg::Pose>()
+            .position(geometry_msgs::build<geometry_msgs::msg::Point>()
+                        .x(utm_pose.position.northing)
+                        .y(utm_pose.position.easting * -1)
+                        .z(utm_pose.position.altitude))
+            .orientation(utm_pose.orientation));
+}
+
+auto GeoposeConverterComponent::convert_with_covariance(
+  const geographic_msgs::msg::GeoPoseStamped & geopose) const
+  -> geometry_msgs::msg::PoseWithCovarianceStamped
 {
   geometry_msgs::msg::PoseWithCovarianceStamped pose;
   geodesy::UTMPose utm_pose = geodesy::UTMPose(geopose.pose);
