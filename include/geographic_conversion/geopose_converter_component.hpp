@@ -64,6 +64,7 @@ extern "C" {
 #include <geodesy/utm.h>
 
 #include <geographic_msgs/msg/geo_pose_stamped.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <rclcpp/rclcpp.hpp>
 
@@ -82,11 +83,16 @@ public:
 
 private:
   std::string map_frame_;
-  rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr pose_pub_;
+  rclcpp::Publisher<geometry_msgs::msg::PoseWithCovarianceStamped>::SharedPtr
+    pose_with_covariance_pub_;
+  rclcpp::Publisher<geometry_msgs::msg::PoseStamped>::SharedPtr pose_pub_;
   rclcpp::Subscription<geographic_msgs::msg::GeoPoseStamped>::SharedPtr geopose_sub_;
-  geometry_msgs::msg::PoseWithCovarianceStamped convert(
-    geographic_msgs::msg::GeoPoseStamped geopose);
+  auto convert(const geographic_msgs::msg::GeoPoseStamped & geopose) const
+    -> geometry_msgs::msg::PoseStamped;
+  auto convert_with_covariance(const geographic_msgs::msg::GeoPoseStamped & geopose) const
+    -> geometry_msgs::msg::PoseWithCovarianceStamped;
   void geoposeCallback(const geographic_msgs::msg::GeoPoseStamped::SharedPtr msg);
+  bool publish_covariance_;
 };
 }  // namespace geographic_conversion
 
