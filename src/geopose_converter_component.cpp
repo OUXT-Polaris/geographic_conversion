@@ -28,13 +28,13 @@ GeoposeConverterComponent::GeoposeConverterComponent(const rclcpp::NodeOptions &
   get_parameter("publish_covariance", publish_covariance_);
   if (publish_covariance_) {
     pose_with_covariance_pub_ =
-      this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("/gps_pose", 1);
+      this->create_publisher<geometry_msgs::msg::PoseWithCovarianceStamped>("gps_pose", 1);
   } else {
-    pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("/gps_pose", 1);
+    pose_pub_ = this->create_publisher<geometry_msgs::msg::PoseStamped>("gps_pose", 1);
   }
 
   geopose_sub_ = this->create_subscription<geographic_msgs::msg::GeoPoseStamped>(
-    "/geopose", 1,
+    "geopose", 1,
     std::bind(&GeoposeConverterComponent::geoposeCallback, this, std::placeholders::_1));
 }
 
